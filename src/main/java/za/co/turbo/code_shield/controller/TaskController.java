@@ -3,6 +3,7 @@ package za.co.turbo.code_shield.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.turbo.code_shield.model.Task;
@@ -12,9 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
-@RequiredArgsConstructor
 public class TaskController {
+
     private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class TaskValidator {
-    public List<String> validate(Task task) {
+    public void validate(Task task) {
         List<String> errors = new ArrayList<>();
 
         if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
@@ -26,6 +26,8 @@ public class TaskValidator {
             errors.add("Task status is required");
         }
 
-        return errors;
+        if (!errors.isEmpty()) {
+            throw new IllegalArgumentException(String.join(", ", errors));
+        }
     }
 }
