@@ -10,6 +10,7 @@ import za.co.turbo.code_shield.model.Task;
 import za.co.turbo.code_shield.model.User;
 import za.co.turbo.code_shield.repository.TaskRepository;
 import za.co.turbo.code_shield.repository.UserRepository;
+import za.co.turbo.code_shield.validator.TaskValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ import java.util.Optional;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final TaskValidator taskValidator;
 
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, TaskValidator taskValidator) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.taskValidator = taskValidator;
     }
 
     public Optional<User> findUser(String username) {
@@ -36,6 +39,7 @@ public class TaskService {
 
     @CacheEvict(value = "tasks", key = "#result.id")
     public Task createTask(Task task) {
+        taskValidator.validate(task);
         return taskRepository.save(task);
     }
 
@@ -44,6 +48,7 @@ public class TaskService {
         if (!taskRepository.existsById(id)) {
             throw new EntityNotFoundException("Task not found with id: " + id);
         }
+        taskValidator.validate(task);
         task.setId(id);
         return taskRepository.save(task);
     }

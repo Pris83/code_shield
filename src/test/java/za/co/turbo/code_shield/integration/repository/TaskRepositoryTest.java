@@ -12,7 +12,6 @@ import za.co.turbo.code_shield.model.User;
 import za.co.turbo.code_shield.repository.TaskRepository;
 import za.co.turbo.code_shield.repository.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

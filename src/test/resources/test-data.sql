@@ -8,7 +8,14 @@ CREATE TABLE IF NOT EXISTS task (
     title VARCHAR(255)
 );
 
-INSERT INTO users (username, email, password) VALUES ('john_doe', 'john@example.com', 'password123');
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO users (id,username, email, password) VALUES (1,'john_doe', 'john@example.com', 'password123');
 
 INSERT INTO task (
     title,

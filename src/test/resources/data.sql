@@ -1,11 +1,23 @@
+DELETE FROM task;
+DELETE FROM users;
+
 -- Users
 INSERT INTO users (username, email, password) VALUES ('testuser', 'testuser@example.com', 'password123');
 INSERT INTO users (username, email, password) VALUES ('john_doe', 'john@example.com', 'password123');
 INSERT INTO users (username, email, password) VALUES ('jane_doe', 'jane@example.com', 'securepass');
 
----- Tasks
---INSERT INTO tasks (title, description, status, user_id, created_at)
---VALUES ('Sample Task 1', 'First task for John', 'PENDING', 1, NOW());
---
---INSERT INTO tasks (itle, description, status, user_id, created_at)
---VALUES ('Sample Task 2', 'Second task for Jane', 'COMPLETED', 2, NOW());
+INSERT INTO task (
+    title,
+    description,
+    status,
+    due_date,
+    created_at,
+    assignee_id
+) VALUES (
+    'Sample Task',
+    'This is a test task',
+    'IN_PROGRESS',
+    '2025-06-29T12:00:00',
+    '2025-06-28T10:00:00',
+    (SELECT id FROM users WHERE username = 'testuser')
+);

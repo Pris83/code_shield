@@ -3,21 +3,21 @@ package za.co.turbo.code_shield.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-
 @Builder
-
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     @NotBlank(message = "Username is required")
     @Column(unique = true)
     private String username;

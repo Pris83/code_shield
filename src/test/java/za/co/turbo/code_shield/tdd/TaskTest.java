@@ -1,8 +1,11 @@
 package za.co.turbo.code_shield.tdd;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import za.co.turbo.code_shield.BaseTest;
 import za.co.turbo.code_shield.model.Task;
@@ -13,13 +16,14 @@ import za.co.turbo.code_shield.repository.UserRepository;
 import za.co.turbo.code_shield.service.TaskService;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class TaskTest extends BaseTest {
-    @Autowired
+    @Mock
     private UserRepository userRepository;
 
     @Mock
@@ -28,28 +32,37 @@ public class TaskTest extends BaseTest {
     @InjectMocks
     private TaskService taskService;
 
-    @Test
-    void createTaskSuccess() {
-        //arrange
-        User user = userRepository.findByUsername("testuser")
-                .orElseThrow(() -> new RuntimeException("Test user not found"));
+    private Task task;
+    private User user;
 
-        Task task = new Task();
+    @BeforeEach
+    void setup(){
+        user = new User();
+        user.setId(1L);
+        user.setUsername("testuser");
+        user.setEmail("testuser@email.com");
+        user.setPassword("testPassword");
+
+        task = new Task();
         task.setTitle("Test Task");
         task.setDescription("This is a test task");
         task.setStatus(TaskStatus.IN_PROGRESS);
         task.setDueDate(LocalDateTime.now().plusDays(3));
         task.setCreatedAt(LocalDateTime.now());
         task.setAssignee(user);
+    }
 
-        when(taskRepository.save(task)).thenReturn(task);
+    @Test
+    void createTaskSuccess() {
 
-        //act
+        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(taskRepository.save(any(Task.class))).thenReturn(task);
+
         Task result = taskService.createTask(task);
 
-        //assert
         assertNotNull(result);
         assertEquals("Test Task", result.getTitle());
         assertEquals(TaskStatus.IN_PROGRESS, result.getStatus());
-        verify(taskRepository, times(1)).save(task);    }
+        verify(taskRepository, times(1)).save(task);
+    }
 }

@@ -5,3 +5,12 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS task (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    assignee_id BIGINT,
+    created_at TIMESTAMP,
+    description VARCHAR(255),
+    due_date TIMESTAMP,
+    status VARCHAR(50),
+    title VARCHAR(255)
+);
