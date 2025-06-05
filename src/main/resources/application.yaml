@@ -54,3 +54,8 @@ spring:
     jwt:
       secret: test_secret_key
       expiration: 86400000
+
+      spring:
+        redis:
+          host: localhost
+          port: 6379

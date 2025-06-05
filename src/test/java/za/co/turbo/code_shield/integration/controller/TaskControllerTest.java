@@ -87,7 +87,6 @@ public class TaskControllerTest {
                         .content(asJsonString(task)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Updated Task"));
-
     }
 
     @Test
@@ -118,7 +117,6 @@ public class TaskControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Sample Task"));
     }
-
 
     private String asJsonString(Object obj) throws JsonProcessingException {
         return objectMapper.writeValueAsString(obj);

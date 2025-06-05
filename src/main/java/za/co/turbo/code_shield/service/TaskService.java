@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Cacheable
 public class TaskService {
+
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskValidator taskValidator;
@@ -62,6 +64,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    @Cacheable(value = "tasks", key = "#id")
     public Task getTaskById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));

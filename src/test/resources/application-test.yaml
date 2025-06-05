@@ -11,6 +11,19 @@ spring:
     console:
       enabled: true
 
+  redis:
+    # Host and port will be overridden by Testcontainers in tests,
+    # but setting defaults for local fallback
+    host: localhost
+    port: 6379
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000  # optional, cache entry TTL in ms
+      cache-null-values: false
+      use-key-prefix: true
+
 jwt:
   secret: test_secret_key
   expiration: 60000

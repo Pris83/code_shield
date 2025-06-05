@@ -12,6 +12,7 @@ import za.co.turbo.code_shield.model.User;
 import za.co.turbo.code_shield.repository.TaskRepository;
 import za.co.turbo.code_shield.repository.UserRepository;
 import za.co.turbo.code_shield.service.TaskService;
+import za.co.turbo.code_shield.validator.TaskValidator;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,9 @@ public class TaskServiceTest{
 
     @Mock
     private TaskRepository taskRepository;
+
+    @Mock
+    private TaskValidator taskValidator;
 
     @InjectMocks
     private TaskService taskService;
@@ -70,6 +74,7 @@ public class TaskServiceTest{
 
         assertNotNull(saved);
         verify(taskRepository).save(any(Task.class));
+        verify(taskValidator).validate(task);
     }
 
     @Test
