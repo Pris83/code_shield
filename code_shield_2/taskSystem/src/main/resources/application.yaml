@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: code-shield
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codeShieldDB
+    username: postgresuser
+    password: postgrespassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: INFO
+    za.co.turbo: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: INFO
+
+# Test specific configurations
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  redis:
+    host: localhost
+    port: 6379
+    database: 1
